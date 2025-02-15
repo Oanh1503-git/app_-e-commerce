@@ -43,19 +43,15 @@ import com.example.app_e_commerce.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HOMEPAGE() {
-    var expanded by remember { mutableStateOf(false) } // Trạng thái mở menu
-
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {Text(text = "")},
                 actions = {
-                    SeachFiled()
+                       SeachFiled()
                 }
         )
-
-        }
-                ,
+        },
         bottomBar = {
             contentColorFor(backgroundColor = Color.White)
             BottomAppBar {
