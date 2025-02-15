@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.example.app_e_commerce"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.app_e_commerce"
@@ -41,6 +41,10 @@ android {
 
 dependencies {
 
+    implementation("androidx.compose.material:material-icons-extended-android:1.7.5")
+    implementation("androidx.navigation:navigation-compose:2.8.4")
+    implementation("com.google.code.gson:gson:2.11.0")
+    implementation("io.coil-kt:coil-compose:2.7.0")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
