@@ -63,7 +63,10 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.app_e_commerce.R
+<<<<<<< HEAD
 import com.example.app_e_commerce.model.BottomNavItem
+=======
+>>>>>>> f85fd718b1ac96f83581be59d71ffd84a77df353
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPagerIndicator
 import kotlinx.coroutines.delay
@@ -176,6 +179,12 @@ fun MenuBottomNavBar(navController: NavController) {
         }
     }
 }
+<<<<<<< HEAD
+=======
+data class BottomNavItem(val title: String, val icon: ImageVector, val route: String)
+
+@OptIn(ExperimentalPagerApi::class)
+>>>>>>> f85fd718b1ac96f83581be59d71ffd84a77df353
 @Composable
 fun ImageSlider() {
     val images = listOf(
