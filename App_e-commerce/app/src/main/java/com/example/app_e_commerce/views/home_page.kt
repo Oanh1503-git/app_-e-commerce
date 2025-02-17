@@ -2,15 +2,21 @@ package com.example.app_e_commerce.views
 
 import android.provider.Settings.Panel
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddHome
@@ -37,6 +43,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,6 +54,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.motionEventSpy
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -55,6 +63,9 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.app_e_commerce.R
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPagerIndicator
+import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -76,13 +87,20 @@ fun HOMEPAGE() {
             }
         }
     ) { innerPadding ->
-        LazyColumn(modifier = Modifier.padding(innerPadding)) {
-            // Nội dung trang
+        LazyColumn(modifier = Modifier.padding(innerPadding)
+            .padding(10.dp)
+            .fillMaxSize()) {
+           item{
+               ImageSlider()
+           }
+            item {
+                Text(text = "Dành riêng cho bạn")
+            }
         }
     }
 }
 @Composable
-fun SeachFiled(){
+fun SeachFiled(){   
     var text by remember { mutableStateOf("") }
     Row(
         modifier = Modifier.padding(4.dp).border(2.dp,
@@ -158,3 +176,44 @@ fun MenuBottomNavBar(navController: NavController) {
     }
 }
 data class BottomNavItem(val title: String, val icon: ImageVector, val route: String)
+
+@OptIn(ExperimentalPagerApi::class)
+@Composable
+fun ImageSlider() {
+    val images = listOf(
+        R.drawable.bannergiay,
+        R.drawable.banner2,
+        R.drawable.banner3
+    )
+
+    val pagerState = rememberPagerState(pageCount = { images.size })
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.Transparent)
+    ) {
+        HorizontalPager(
+            state = pagerState,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(180.dp)
+        ) { page ->
+            Image(
+                painter = painterResource(id = images[page]),
+                contentDescription = "Banner $page",
+                modifier = Modifier.fillMaxSize().padding(8.dp),
+                contentScale = ContentScale.Crop
+            )
+        }
+
+    }
+    // Tự động cuộn ảnh sau mỗi 3 giây
+    LaunchedEffect(Unit) {
+        while (true) {
+            delay(3000) // 3 giây đổi ảnh
+            val nextPage = (pagerState.currentPage + 1) % images.size
+            pagerState.animateScrollToPage(nextPage)
+        }
+    }
+}
