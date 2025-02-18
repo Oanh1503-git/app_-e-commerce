@@ -56,6 +56,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.motionEventSpy
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -64,82 +65,76 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.app_e_commerce.R
 import com.example.app_e_commerce.model.BottomNavItem
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPagerIndicator
+import com.example.app_e_commerce.model.Screems
 import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HOMEPAGE(navController: NavHostController) {
-    val navController = rememberNavController()
     Scaffold(
         topBar = {
             TopAppBar(
-                title = {Text(text = "")},
-                actions = {
-                       SeachFiled()
-                }
-        )
+                title = { Text(text = "") },
+                actions = { SearchField() }
+            )
         },
         bottomBar = {
-            contentColorFor(backgroundColor = Color.White)
-            BottomAppBar {
+            BottomAppBar() {
                 MenuBottomNavBar(navController)
             }
         }
     ) { innerPadding ->
-        LazyColumn(modifier = Modifier.padding(innerPadding)
-            .padding(10.dp)
-            .fillMaxSize()) {
-           item{
-               ImageSlider()
-           }
+        LazyColumn(
+            modifier = Modifier
+                .padding(innerPadding)
+                .padding(10.dp)
+                .fillMaxSize()
+        ) {
+            item { ImageSlider() }
             item {
-                Text(text = "Dành riêng cho bạn")
+                Text(
+                    text = "Dành riêng cho bạn",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.padding(vertical = 8.dp)
+                )
             }
         }
     }
 }
+
 @Composable
-fun SeachFiled(){   
+fun SearchField() {
     var text by remember { mutableStateOf("") }
-    Row(
-        modifier = Modifier.padding(4.dp).border(2.dp,
-            color = Color.Red, RoundedCornerShape(25.dp))
-    ){
-        OutlinedTextField(
-            value = text,
-            onValueChange = {text=it},
-            leadingIcon ={
-                Icon(Icons.Default.SavedSearch,
-                    contentDescription = "seach_tapbar")
-            },
-            placeholder = { Text(text = " Tìm kiếm ")},
-            modifier = Modifier.fillMaxWidth(),
-            trailingIcon = {
-                Button(onClick = {},
-                    modifier = Modifier.padding(6.dp)
-                        , colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.Red,
-                            contentColor = Color.White
-                        )
-                    ){
-                    Text(text="SEACH",
-                        color = Color.White,
-                        textAlign = TextAlign.Center)
-                }
-            },
-            shape = RoundedCornerShape(25.dp)
-            )
-    }
+    OutlinedTextField(
+        value = text,
+        onValueChange = { text = it },
+        leadingIcon = { Icon(Icons.Default.SavedSearch, contentDescription = "search_tapbar") },
+        placeholder = { Text(text = "Tìm kiếm") },
+        modifier = Modifier.fillMaxWidth(),
+        trailingIcon = {
+            Button(
+                onClick = {},
+                modifier = Modifier.padding(6.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Red,
+                    contentColor = Color.White
+                )
+            ) {
+                Text(text = "SEARCH", textAlign = TextAlign.Center)
+            }
+        },
+        shape = RoundedCornerShape(25.dp)
+    )
 }
+
 @Composable
 fun MenuBottomNavBar(navController: NavController) {
     val items = listOf(
-        BottomNavItem("Home", Icons.Default.Home, "home_page"),
-        BottomNavItem("Categories", Icons.Default.List, "catagories"),
-        BottomNavItem("Cart", Icons.Default.ShoppingCart, "cart"),
-        BottomNavItem("Account", Icons.Default.Person, "account")
+        BottomNavItem("Home", Icons.Default.Home,Screems.HOMEPAGE.route),
+        BottomNavItem("Categories", Icons.Default.List, Screems.CATAGORIES.route),
+        BottomNavItem("Cart", Icons.Default.ShoppingCart, Screems.CARTSCREENS.route),
+        BottomNavItem("Account", Icons.Default.Person, Screems.ACCOUNTSCREENS.route)
     )
 
     var selectedItem by remember { mutableStateOf(0) }
@@ -148,14 +143,12 @@ fun MenuBottomNavBar(navController: NavController) {
         items.forEachIndexed { index, item ->
             NavigationBarItem(
                 icon = {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Icon(
-                            imageVector = item.icon,
-                            contentDescription = item.title,
-                            modifier = Modifier.size(24.dp),
-                            tint = if (selectedItem == index) Color.Black else Color.Gray
-                        )
-                    }
+                    Icon(
+                        imageVector = item.icon,
+                        contentDescription = item.title,
+                        modifier = Modifier.size(24.dp),
+                        tint = if (selectedItem == index) Color.Black else Color.Gray
+                    )
                 },
                 label = {
                     Text(
@@ -168,7 +161,7 @@ fun MenuBottomNavBar(navController: NavController) {
                 onClick = {
                     selectedItem = index
                     navController.navigate(item.route) {
-                        popUpTo("home") { inclusive = false }
+                        popUpTo(Screems.HOMEPAGE.route) { inclusive = false }
                         launchSingleTop = true
                     }
                 }
@@ -176,6 +169,7 @@ fun MenuBottomNavBar(navController: NavController) {
         }
     }
 }
+
 @Composable
 fun ImageSlider() {
     val images = listOf(
@@ -184,18 +178,14 @@ fun ImageSlider() {
         R.drawable.banner3
     )
 
-    val pagerState = rememberPagerState(pageCount = { images.size })
+    val pagerState = rememberPagerState { images.size }
 
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(Color.Transparent)
+        modifier = Modifier.fillMaxWidth().background(Color.Transparent)
     ) {
         HorizontalPager(
             state = pagerState,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(180.dp)
+            modifier = Modifier.fillMaxWidth().height(180.dp)
         ) { page ->
             Image(
                 painter = painterResource(id = images[page]),
@@ -204,14 +194,12 @@ fun ImageSlider() {
                 contentScale = ContentScale.Crop
             )
         }
-
     }
-    // Tự động cuộn ảnh sau mỗi 3 giây
-    LaunchedEffect(Unit) {
+
+    LaunchedEffect(pagerState) {
         while (true) {
-            delay(3000) // 3 giây đổi ảnh
-            val nextPage = (pagerState.currentPage + 1) % images.size
-            pagerState.animateScrollToPage(nextPage)
+            delay(3000)
+            pagerState.animateScrollToPage((pagerState.currentPage + 1) % images.size)
         }
     }
 }

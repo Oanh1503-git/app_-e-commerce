@@ -40,6 +40,7 @@ android {
 }
 
 dependencies {
+    implementation("androidx.compose.material3:material3:1.1.2")
     implementation ("com.google.accompanist:accompanist-pager:0.31.3-beta")
     implementation ("com.google.accompanist:accompanist-pager-indicators:0.31.3-beta")
     implementation("androidx.compose.material:material-icons-extended-android:1.7.5")

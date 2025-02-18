@@ -8,9 +8,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.app_e_commerce.navigation.NavigationGraph
 import com.example.app_e_commerce.ui.theme.App_ecommerceTheme
-import com.example.app_e_commerce.views.Categories
 import androidx.navigation.compose.rememberNavController
-import com.example.app_e_commerce.views.HOMEPAGE
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

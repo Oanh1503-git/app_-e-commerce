@@ -8,6 +8,8 @@ import com.example.app_e_commerce.model.Screems
 import com.example.app_e_commerce.views.HOMEPAGE
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.app_e_commerce.views.AccountScreens
+import com.example.app_e_commerce.views.CartScreen
 import com.example.app_e_commerce.views.Categories
 
 
@@ -20,6 +22,12 @@ fun NavigationGraph(navHostController: NavHostController){
         }
         composable(Screems.CATAGORIES.route) {
             Categories(navHostController)
+        }
+        composable(Screems.CARTSCREENS.route) {
+            CartScreen(navHostController)
+        }
+    composable(Screems.ACCOUNTSCREENS.route) {
+            AccountScreens(navHostController)
         }
     }
 

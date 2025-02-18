@@ -7,3 +7,7 @@ data class BottomNavItem(
     val icon: ImageVector,
     val route: String
 )
+data class Category(
+    val name: String,
+    val imageRes: Int
+)
