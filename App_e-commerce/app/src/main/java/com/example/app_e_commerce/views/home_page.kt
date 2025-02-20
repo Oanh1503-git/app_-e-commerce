@@ -93,11 +93,14 @@ fun HOMEPAGE(navController: NavHostController) {
             item { ImageSlider() }
             item {
                 Text(
-                    text = "Dành riêng cho bạn",
+                    text = "Dành riêng cho bạn ",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(vertical = 8.dp)
                 )
+            }
+            item{
+
             }
         }
     }
