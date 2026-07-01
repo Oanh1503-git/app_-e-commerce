@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.motionEventSpy
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -255,7 +256,6 @@ fun ThietBiDienTuScreens(navHostController: NavHostController) {
             }
         }
         Text(text = "Máy Tính để bàn")
-
     }
 }
 
@@ -263,5 +263,20 @@ fun ThietBiDienTuScreens(navHostController: NavHostController) {
 fun ThoiTrangVaPhuKienNu(navHostController: NavHostController){
     Column(modifier = Modifier.padding(16.dp)) {
         Text("Thời trang và phụ kiện nữ", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = Color.Red)
+    }
+}
+@Composable
+fun ProductCard(){
+    Card(onClick = {}) {
+        Box(modifier = Modifier.padding(2.dp)){
+            Image(painter = painterResource(id = R.drawable.banner2),
+                contentDescription = "")
+            Spacer(Modifier.padding(4.dp))
+            Text(text = "tên sản phẩm")
+            Spacer(Modifier.padding(4.dp))
+            Text(text = "Price")
+            Spacer(Modifier.padding(4.dp) )
+            Text("review")
+        }
     }
 }
